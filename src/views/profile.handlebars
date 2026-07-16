@@ -1,0 +1,10 @@
+</> 
+<div class="container">
+    <h2>Bienvenido a tu perfil de usuario</h2>
+    <p>Email: {{user.email}}</p>
+    <p>Rol: {{user.role}}</p>
+
+    <form action="/api/session/logout" method="POST">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+</div>
