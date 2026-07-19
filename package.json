@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./test/**/*.test.js --timeout 10000",
     "dev": "nodemon -r dotenv/config server.js",
     "start": "node server.js"
   },
@@ -28,6 +28,10 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6",
+    "mongodb-memory-server": "^11.2.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   }
 }
