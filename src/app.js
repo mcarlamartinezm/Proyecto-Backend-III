@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import sessionRouter from './routes/session.routes.js'
+import petRouter from "./routes/pet.routes.js";
+import adoptionRouter from "./routes/adoption.router.js";
 import handlebars from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -45,7 +47,10 @@ app.use(session({
 
 //Rutas principales
 app.use('/api/session', sessionRouter);
+app.use("/api/pets", petRouter);
+app.use("/api/adoptions", adoptionRouter);
 app.use('/', viewsRouter);
+
 
 
 //Confirguración de Handlebars
