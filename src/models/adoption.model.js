@@ -4,13 +4,18 @@ const adoptionSchema = new mongoose.Schema(
     {
         owner: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+            ref: "users",
             required: true
         },
         pet: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Pet",
             required: true
+        },
+        status: {
+            type: String,
+            enum: ["pending", "approved", "rejected"],
+            default: "pending"
         },
         adoptionDate: {
             type: Date,
