@@ -11,7 +11,7 @@ import viewsRouter from './routes/views.router.js';
 import passport from "passport";
 import { initializeLocalStrategy } from "./strategies/local.strategy.js";
 import session from "express-session";
-import './strategies/google.strategy.js'; //importe Oauth de google
+import { initializeGoogleStrategy } from "./strategies/google.strategy.js"; //importe Oauth de google
 
 const app = express (); //Inicialización de la aplicación ES Module 
 const __filename = fileURLToPath(import.meta.url); //permite obtener _dirname, rutas absolutas
@@ -28,7 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));  //archivos estáticos 
 //inicialización estrategia local de passport (autenticación con email/password)
 initializeLocalStrategy();
 //inicializa Passport para manejar estrategias de autenticación
-app.use(passport.initialize()); 
+initializeGoogleStrategy();
+app.use(passport.initialize());
 
 
 //Inyección de usuario en vistas (JWT), permite usar {{user}} en Handlebars desde req.user. Se debe activar.

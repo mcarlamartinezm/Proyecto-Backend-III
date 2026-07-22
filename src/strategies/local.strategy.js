@@ -1,6 +1,6 @@
 import passport from 'passport'; //instancia principal de Passport
 import { Strategy as LocalStrategy } from 'passport-local'; //estrategia de autenticación local
-import { UserModel } from '../models/User.model.js'; //modelo de usuarios
+import { UserModel } from '../models/user.model.js'; //modelo de usuarios
 import { isValidPassword } from '../utils/hash.js'; //función auxiliar que compara la contraseña ingresada con el hash almacenado en la base de datos. 
 
 //Se define una función encargada de registrar la estrategia local en Passport. Esta función se ejecuta en app.js, antes de inicializar Passport. 
