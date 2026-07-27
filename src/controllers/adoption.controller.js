@@ -1,11 +1,11 @@
-import Adoption from "../models/adoption.model.js";
-import Pet from "../models/pet.model.js";
+import { AdoptionModel } from "../models/adoption.model.js";
+import { PetModel } from "../models/pet.model.js";
 import { UserModel } from "../models/user.model.js";
 
 export const getAllAdoptions = async (req, res) => { //para obtener todas las adopciones
     try {
 
-        const adoptions = await Adoption.find() //obtención de datos
+        const adoptions = await AdoptionModel.find() //obtención de datos
             .populate("owner", "first_name last_name email")
             .populate("pet");
 
@@ -29,7 +29,7 @@ export const getAdoptionById = async (req, res) => { //obtener adopciones por id
 
         const { id } = req.params;
 
-        const adoption = await Adoption.findById(id) //obtención de datos
+        const adoption = await AdoptionModel.findById(id) //obtención de datos
             .populate("owner", "first_name last_name email")
             .populate("pet");
 
@@ -69,7 +69,7 @@ export const createAdoption = async (req, res) => { //nueva adopción
             });
         }
 
-        const petExists = await Pet.findById(pet); //verifica que la mascota exista
+        const petExists = await PetModel.findById(pet); //verifica que la mascota exista
 
         if (!petExists) { //si no existe, arroja error.
             return res.status(404).json({
@@ -85,21 +85,12 @@ export const createAdoption = async (req, res) => { //nueva adopción
             });
         }
 
-        const adoption = await Adoption.create({ //creación de la adopción, dejandola pendiente de aprobación
+        const adoption = await AdoptionModel.create({ //creación de la adopción, dejandola pendiente de aprobación
             owner,
             pet,
             status: "pending",
         });
 
-       /* const newAdoption = await Adoption.findById(adoption._id)
-            .populate("owner", "first_name last_name email")
-            .populate("pet");
-
-      
-        res.status(201).json({ //respuesta de adopción exitosa
-            status: "success",
-            payload: newAdoption
-        });*/
 
         res.status(201).json({
     status: "success",
@@ -121,7 +112,7 @@ export const approveAdoption = async (req, res) => { //Aprobar una adopcion
 
         const { id } = req.params;
 
-        const adoption = await Adoption.findById(id);
+        const adoption = await AdoptionModel.findById(id);
 
         if (!adoption) {
             return res.status(404).json({ //mensaje si no se encontro el id de la solicitud
@@ -138,7 +129,7 @@ export const approveAdoption = async (req, res) => { //Aprobar una adopcion
         }
          
 
-        const pet = await Pet.findById(adoption.pet);   //verificar que la mascota asociada existe
+        const pet = await PetModel.findById(adoption.pet);   //verificar que la mascota asociada existe
 
         if (!pet) {
             return res.status(404).json({ //en caso de que la mascota no se exista
@@ -152,7 +143,7 @@ export const approveAdoption = async (req, res) => { //Aprobar una adopcion
         adoption.status = "approved";
         await adoption.save();
 
-        await Adoption.updateMany( //modificar el resto de las peticiones de adopcion y rechazar
+        await AdoptionModel.updateMany( //modificar el resto de las peticiones de adopcion y rechazar
             {
                 pet: pet._id, //busca todas las adopciones que tiene el id de la mascota
                 _id: { $ne: adoption._id }, //que no sea la adopciones que acabamos de aprobar
@@ -165,7 +156,7 @@ export const approveAdoption = async (req, res) => { //Aprobar una adopcion
             }
         );
 
-        const updatedAdoption = await Adoption.findById(adoption._id)
+        const updatedAdoption = await AdoptionModel.findById(adoption._id)
             .populate("owner", "first_name last_name email")
             .populate("pet");
 

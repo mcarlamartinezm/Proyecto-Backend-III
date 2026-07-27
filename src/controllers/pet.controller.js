@@ -1,4 +1,4 @@
-import Pet from "../models/pet.model.js";
+import { PetModel } from "../models/pet.model.js";
 
 export const getAllPets = async (req, res) => { //Obtener todas las mascotas
     try {
