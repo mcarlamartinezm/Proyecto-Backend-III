@@ -1,6 +1,7 @@
 import { AdoptionModel } from "../models/adoption.model.js";
 import { PetModel } from "../models/pet.model.js";
 import { UserModel } from "../models/user.model.js";
+import mongoose from "mongoose";
 
 export const getAllAdoptions = async (req, res) => { //para obtener todas las adopciones
     try {
@@ -28,6 +29,13 @@ export const getAdoptionById = async (req, res) => { //obtener adopciones por id
     try {
 
         const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                status: "error",
+                message: "ID de adopción inválido"
+            });
+        }
 
         const adoption = await AdoptionModel.findById(id) //obtención de datos
             .populate("owner", "first_name last_name email")

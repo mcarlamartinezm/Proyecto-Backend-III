@@ -1,6 +1,6 @@
-import { UserModel } from "../../src/models/User.js";
-import { PetModel } from "../../src/models/Pet.js";
-import { AdoptionModel } from "../../src/models/Adoption.js";
+import { UserModel } from "../../src/models/user.model.js";
+import { PetModel } from "../../src/models/pet.model.js";
+import { AdoptionModel } from "../../src/models/adoption.model.js";
 
 
 //=====Creación de usuario para db temporal=====
@@ -41,10 +41,11 @@ export async function createPet(owner = null) { //Owner=null Para llamar la func
 }
 
 //==========Creación de adopción ficticia=======
-export async function createPendingAdoption(user, pet) {
+export async function createAdoption(user, pet, status = "pending") {
     return await AdoptionModel.create({
         owner: user._id,
         pet: pet._id,
-        status: "pending"
+        status
     });
 }
+
