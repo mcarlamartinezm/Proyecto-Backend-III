@@ -1,6 +1,7 @@
 import { UserModel } from "../../src/models/user.model.js";
 import { PetModel } from "../../src/models/pet.model.js";
 import { AdoptionModel } from "../../src/models/adoption.model.js";
+import { createHash } from "../../src/utils/hash.js";
 
 
 //=====Creación de usuario para db temporal=====
@@ -10,7 +11,7 @@ export async function createUser() {
         last_name: "Pérez",
         email: `juana${Date.now()}@test.com`,
         age: 30,
-        password: "123456",
+        password: createHash("123456"),
         role: "user"
     });
 }

@@ -42,6 +42,7 @@ router.post(
   }
 );
 
+
 //=========login con google
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email']})
 ); //redirección de google, pide acceso a perfil y mail de usuario.

@@ -1,9 +1,10 @@
+import mongoose from "mongoose";
 import { PetModel } from "../models/pet.model.js";
 
 export const getAllPets = async (req, res) => { //Obtener todas las mascotas
     try {
 
-        const pets = await Pet.find(); //para encontrar una mascota
+        const pets = await PetModel.find(); //para encontrar una mascota
 
         res.status(200).json({
             status: "success",
@@ -24,8 +25,14 @@ export const getPetById = async (req, res) => { //obtener mascota por id
     try {
 
         const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                status: "error",
+                message: "ID de mascota inválido"
+            });
+        }
 
-        const pet = await Pet.findById(id);
+        const pet = await PetModel.findById(id);
 
         if (!pet) { //Si no se encuentra el id responder, no encontrada
             return res.status(404).json({
@@ -61,7 +68,7 @@ export const createPet = async (req, res) => { //crear una mascota
             });
         }
 
-        const pet = await Pet.create({ //crea la mascota
+        const pet = await PetModel.create({ //crea la mascota
             name,
             species,
             age
@@ -88,7 +95,14 @@ export const updatePet = async (req, res) => { //modificar mascota
         const { id } = req.params; //buscar mascota por id
         const updatedData = req.body;
 
-        const pet = await Pet.findById(id); 
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                status: "error",
+                message: "ID de mascota inválido"
+            });
+        }
+
+        const pet = await PetModel.findById(id); 
 
         if (!pet) {  //mensaje en caso de error
             return res.status(404).json({
@@ -97,7 +111,7 @@ export const updatePet = async (req, res) => { //modificar mascota
             });
         }
 
-        const updatedPet = await Pet.findByIdAndUpdate( //actualizar mascota
+        const updatedPet = await PetModel.findByIdAndUpdate( //actualizar mascota
             id,
             updatedData,
             {
@@ -126,7 +140,14 @@ export const deletePet = async (req, res) => { //eliminar mascota
 
         const { id } = req.params;
 
-        const pet = await Pet.findById(id); //Encontrar mascota por id
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                status: "error",
+                message: "ID de mascota inválido"
+            });
+        }
+
+        const pet = await PetModel.findById(id); //Encontrar mascota por id
 
         if (!pet) {
             return res.status(404).json({ //Mensaje de error en caso de no encontrarlo
@@ -135,7 +156,7 @@ export const deletePet = async (req, res) => { //eliminar mascota
             });
         }
 
-        await Pet.findByIdAndDelete(id); //eliminar
+        await PetModel.findByIdAndDelete(id); //eliminar
 
         return res.status(200).json({  //mensaje de éxito
             status: "success",

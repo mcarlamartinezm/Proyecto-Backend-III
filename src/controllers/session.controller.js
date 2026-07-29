@@ -74,17 +74,6 @@ export const login = async (req, res) => {
     role: user.role
    }; 
  
-    //payload auxiliar (referencia para JWT)
-    /*const payload = {
-      id: user._id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      age: user.age,
-      role: user.role,
-    };*/
-
-
     // Genera JasonWebToken (metodo principal de autenticación) Firma token con información mínima del user
     const token = jwt.sign({
       id: user._id,
