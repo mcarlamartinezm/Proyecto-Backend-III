@@ -102,9 +102,9 @@ La siguiente estructura corresponde a los módulos principales utilizados en el 
     ├── views
     |   └──layout
     |       └──main.handlebars
-    |      login.handlebars
-    |      profile.handlebars
-    |      register.handlebars
+    |   └──login.handlebars
+    |   └──profile.handlebars
+    |   └──register.handlebars
     └── app.js
 └──test
 |   └──helpers
